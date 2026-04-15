@@ -10,6 +10,7 @@ const companyRoutes = require("./routes/company.routes");
 const countryRoutes = require("./routes/masters.routes");
 const settingsRoutes = require("./routes/settings.routes");
 const authRoute = require("./routes/auth.route");
+const qlikTenantConfig = require("./routes/qlik-tenant-config.routes");
 
 const auth = require("./middleware/authenticate.middleware");
 const authorizeRoles = require("./middleware/authorize.middleware");
@@ -27,10 +28,11 @@ app.use(morgan("dev"));
 app.use(responseMiddleware);
 
 // routes
-app.use("/api/v1/company", auth, authorizeRoles("Admin"), companyRoutes);
+app.use("/", authRoute);
+app.use("/api/v1/company", companyRoutes);
 app.use("/api/v1/masters", countryRoutes);
 app.use("/api/v1/settings", auth, settingsRoutes);
-app.use("", authRoute);
+app.use("/api/v1/qlik-tenant", qlikTenantConfig);
 
 // error handler (last)
 app.use(errorMiddleware);
