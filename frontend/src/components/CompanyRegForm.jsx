@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axiosInstance"
 import ShortUniqueId from "short-unique-id";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -42,15 +42,8 @@ function CompanyRegForm() {
     console.log("Submitting form with data:", updatedFormData);
 
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${apiUrl}/api/v1/company/register`,
-        data: updatedFormData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
+      // refer to dev.md file for use of this api object
+      const response = await api.post("/api/v1/company/register", updatedFormData);
       console.log("Success:", response.data);
       alert("Company registered successfully");
     } catch (error) {
@@ -73,13 +66,8 @@ function CompanyRegForm() {
   }
 
   function getAllCountries(apiUrl) {
-    const options = {
-      method: "GET",
-      url: `${apiUrl}/api/v1/masters/getAllCountries`,
-    };
-
-    axios
-      .request(options)
+      api
+      .get("/api/v1/masters/getAllCountries")
       .then(function (response) {
         setCountryList(response.data.data);
       })
@@ -89,13 +77,8 @@ function CompanyRegForm() {
   }
 
   function getCompanyType(apiUrl) {
-    const options = {
-      method: "GET",
-      url: `${apiUrl}/api/v1/masters/getAllCompanyTypes`,
-    };
-
-    axios
-      .request(options)
+      api
+      .get("/api/v1/masters/getAllCompanyTypes")
       .then(function (response) {
         setCompanyType(response.data.data);
       })
@@ -106,13 +89,8 @@ function CompanyRegForm() {
 
   function getCompanySubType(apiUrl) {
     const selectedCompanyType = document.getElementById("compType").value;
-    const options = {
-      method: "GET",
-      url: `${apiUrl}/api/v1/masters/getAllCompanySubTypes?companyCatId=${selectedCompanyType}`,
-    };
-
-    axios
-      .request(options)
+    api
+    .get(`/api/v1/masters/getAllCompanySubTypes?companyCatId=${selectedCompanyType}`)
       .then(function (response) {
         setCompanySubType(response.data.data);
       })

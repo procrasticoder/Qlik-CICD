@@ -8,7 +8,7 @@ function SettingsPage() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await axios.post(`${apiUrl}/api/v1/settings`, {
+        const response = await api.post("/api/v1/settings", {
           user_email: "ankit.mishra@lagozon.com",
         });
         setSettings(response.data.data[0]);
