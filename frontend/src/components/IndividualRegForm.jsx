@@ -1,6 +1,6 @@
 import Button from "../components/button";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axiosInstance";
 import { useState, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -31,15 +31,7 @@ function IndividualRegForm() {
     console.log("Submitting form with data:", updatedFormData);
 
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${apiUrl}/api/v1/company/registerUser`,
-        data: updatedFormData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
+      const response = await api.post("/api/v1/company/registerUser", updatedFormData);
       console.log("Success:", response.data);
       alert("User registered successfully");
     } catch (error) {
